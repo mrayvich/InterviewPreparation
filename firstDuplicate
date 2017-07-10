@@ -1,0 +1,13 @@
+int firstDuplicate(int[] a) {
+    string holder = "*,";
+    string element;
+    
+    for (int counter = 0; counter<=a.GetUpperBound(0); counter++)
+    {
+        element = a[counter].ToString();
+        if (holder.Contains(element + ',')) { return a[counter]; }
+        else { holder += element + ","; }
+    }
+        
+    return -1;
+}
