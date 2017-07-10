@@ -1,18 +1,14 @@
+
 int firstDuplicate(int[] a) {
     string holder = "*,";
-    string element;
-    int length;
     
-    length = a.GetUpperBound(0) + 1;
-    
-    if (a == null || length==0 || length>100000) return -1;
+    if (a == null || a.GetUpperBound(0) < 0 || a.GetUpperBound(0) + 1>100000) return -1;
     
     for (int counter = 0; counter<=a.GetUpperBound(0); counter++)
     {
-        if (a[counter]<1 || a[counter]>length) { return -1; }
-        element = a[counter].ToString();
-        if (holder.Contains(element + ',')) { return a[counter]; }
-        else { holder += element + ","; }
+        if (a[counter]<1 || a[counter]>a.GetUpperBound(0) + 1) { return -1; }
+        if (holder.Contains(',' + a[counter].ToString() + ',')) { return a[counter]; }
+        else { holder += a[counter].ToString() + ","; }
     }
         
     return -1;
