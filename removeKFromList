@@ -55,11 +55,14 @@ ListNode<int> removeKFromList(ListNode<int> l, int k) {
     {
         if (nd.next.value==k)
         {
-            if (nd.next.next!=null) { nd.next = nd.next.next; }
-            else { nd.next=null; break; }
+            while (nd.next.value==k) 
+            {
+                if (nd.next.next != null) { nd.next = nd.next.next; }    
+                else { nd.next=null; break; }
+            }
         }
         
-        nd=nd.next;
+        if (nd.next != null) { nd=nd.next; }
     }
     
     return l;
