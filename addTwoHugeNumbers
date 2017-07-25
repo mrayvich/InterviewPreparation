@@ -1,0 +1,119 @@
+You're given 2 huge integers represented by linked lists. Each linked list element is a number from 0 to 9999 that represents a number with exactly 4 digits. The represented number might have leading zeros. Your task is to add up these huge integers and return the result in the same format.
+
+Example
+
+For a = [9876, 5432, 1999] and b = [1, 8001], the output should be
+addTwoHugeNumbers(a, b) = [9876, 5434, 0].
+
+Explanation: 987654321999 + 18001 = 987654340000.
+
+For a = [123, 4, 5] and b = [100, 100, 100], the output should be
+addTwoHugeNumbers(a, b) = [223, 104, 105].
+
+Explanation: 12300040005 + 10001000100 = 22301040105.
+
+Input/Output
+
+[time limit] 3000ms (cs)
+[input] linkedlist.integer a
+
+The first number, without its leading zeros.
+
+Guaranteed constraints:
+0 ≤ a size ≤ 104,
+0 ≤ element value ≤ 9999.
+
+[input] linkedlist.integer b
+
+The second number, without its leading zeros.
+
+Guaranteed constraints:
+0 ≤ b size ≤ 104,
+0 ≤ element value ≤ 9999.
+
+[output] linkedlist.integer
+
+The result of adding a and b together, returned without leading zeros in the same format.
+
+--------------------------------------------------Code-------------------------------------
+// Definition for singly-linked list:
+// class ListNode<T> {
+//   public T value { get; set; }
+//   public ListNode<T> next { get; set; }
+// }
+//
+ListNode<int> addTwoHugeNumbers(ListNode<int> a, ListNode<int> b) {
+    
+    string number;
+    decimal num1;
+    decimal num2;
+    decimal sum;
+    int allseg;
+    int initseg;
+    ListNode<int> nd;
+    ListNode<int> ndt;
+    
+    ListNode<int> result = new ListNode<int>();
+    
+    nd=a;
+    number="";
+    while (nd != null)
+    {
+        number += nd.value.ToString().PadLeft(4).Replace(' ','0');
+        nd=nd.next;
+    }
+    try
+    {
+        num1 = Convert.ToDecimal(number);
+    }
+    catch (System.OverflowException ex)
+    {
+        return result;
+    }
+    
+    nd=b;
+    number="";
+    while (nd != null)
+    {
+        number += nd.value.ToString().PadLeft(4).Replace(' ','0');
+        nd=nd.next;
+    }
+    try
+    {
+        num2 = Convert.ToDecimal(number);
+    }
+    catch (System.OverflowException ex)
+    {
+        return result;
+    } 
+    
+    try
+    {
+        sum = num1 + num2;
+    }
+    catch (System.OverflowException ex)
+    {
+        return result;
+    }         
+    
+    number = sum.ToString().Trim();
+    allseg = number.Length/4;
+    initseg = number.Length - allseg*4;
+    
+    if (initseg != 0) { result.value = Convert.ToInt32(number.Substring(0,initseg)); }
+    else { result.value = 0; }
+
+    nd=result;    
+    
+    for (int i = 0; i<=allseg-1; i++)
+    {
+        ndt = new ListNode<int>();
+        ndt.value = Convert.ToInt32(number.Substring(i*4+initseg,4));
+        nd.next = ndt;
+        nd=nd.next;
+    }
+    
+    if (result.value == 0 && result.next != null) { result = result.next; }
+    
+    return result;
+}
